@@ -1,9 +1,9 @@
 package eu.yelnikoff.curverter;
 
 import org.mapstruct.factory.Mappers;
-import eu.yelnikoff.curverter.entities.Currency;
-import eu.yelnikoff.curverter.entities.dto.CurrencyDto;
-import eu.yelnikoff.curverter.entities.mappers.CurrencyMapper;
+import eu.yelnikoff.curverter.entities.currency.Currency;
+import eu.yelnikoff.curverter.entities.currency.CurrencyDto;
+import eu.yelnikoff.curverter.entities.currency.CurrencyMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

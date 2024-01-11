@@ -1,4 +1,4 @@
-package eu.yelnikoff.curverter.entities;
+package eu.yelnikoff.curverter.entities.user;
 
 import lombok.Getter;
 import lombok.Setter;

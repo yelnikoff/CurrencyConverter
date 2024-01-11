@@ -1,8 +1,11 @@
-package eu.yelnikoff.curverter.entities;
+package eu.yelnikoff.curverter.entities.usercurrency;
 
 import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.*;
+
+import eu.yelnikoff.curverter.entities.user.User;
+import eu.yelnikoff.curverter.entities.currency.Currency;
 
 @Entity
 @Getter

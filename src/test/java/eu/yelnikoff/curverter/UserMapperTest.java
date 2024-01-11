@@ -1,9 +1,9 @@
 package eu.yelnikoff.curverter;
 
 import org.mapstruct.factory.Mappers;
-import eu.yelnikoff.curverter.entities.User;
-import eu.yelnikoff.curverter.entities.dto.UserDto;
-import eu.yelnikoff.curverter.entities.mappers.UserMapper;
+import eu.yelnikoff.curverter.entities.user.User;
+import eu.yelnikoff.curverter.entities.user.UserDto;
+import eu.yelnikoff.curverter.entities.user.UserMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

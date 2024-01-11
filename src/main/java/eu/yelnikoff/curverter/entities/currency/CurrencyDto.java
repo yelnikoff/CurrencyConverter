@@ -1,4 +1,4 @@
-package eu.yelnikoff.curverter.entities.dto;
+package eu.yelnikoff.curverter.entities.currency;
 
 import lombok.Getter;
 import lombok.Setter;
