@@ -1,11 +1,15 @@
 package eu.yelnikoff.curverter.entities;
 
+import lombok.Getter;
+import lombok.Setter;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
 @Entity
+@Getter
+@Setter
 @Table(name="currency")
 public class Currency {
 

@@ -1,8 +1,12 @@
 package eu.yelnikoff.curverter.entities;
 
+import lombok.Getter;
+import lombok.Setter;
 import jakarta.persistence.*;
 
 @Entity
+@Getter
+@Setter
 @Table(name="userCurrency", uniqueConstraints = { @UniqueConstraint(columnNames={"userId", "currencyCode"}) })
 public class UserCurrency {
 

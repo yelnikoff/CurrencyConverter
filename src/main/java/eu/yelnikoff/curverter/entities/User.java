@@ -1,10 +1,14 @@
 package eu.yelnikoff.curverter.entities;
 
+import lombok.Getter;
+import lombok.Setter;
 import java.util.Date;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
+@Getter
+@Setter
 @Table(name="user")
 public class User {
 
