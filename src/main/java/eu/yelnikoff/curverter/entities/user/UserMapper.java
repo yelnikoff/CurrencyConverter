@@ -8,7 +8,11 @@ public interface UserMapper {
 
     public UserDto toUserDto(User user);
 
-    @Mapping(target = "password", ignore = true)
+    @Mapping(target="password", ignore=true)
     public SignInUserDto toSignInUserDto(User user);
+
+    @Mapping(target="password", ignore=true)
+    @Mapping(target="repeatPassword", ignore=true)
+    public SignUpUserDto toSignUpUserDto(User user);
 
 }

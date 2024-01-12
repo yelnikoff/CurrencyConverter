@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import eu.yelnikoff.curverter.entities.user.UserService;
 import eu.yelnikoff.curverter.entities.user.SignInUserDto;
+import eu.yelnikoff.curverter.entities.user.SignUpUserDto;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,6 +26,12 @@ public class LoginController {
     public String signInForm(Model model) {
         model.addAttribute("signInForm", new SignInUserDto());
         return "login/signin";
+    }
+
+    @GetMapping(path="/signup")
+    public String signUpForm(Model model) {
+        model.addAttribute("signUpForm", new SignUpUserDto());
+        return "login/signup";
     }
 
     @PostMapping(path="/signin")
@@ -48,6 +55,33 @@ public class LoginController {
         model.addAttribute("email", signInUserDto.getEmail());
 
         return "login/signin-success";
+    }
+
+    @PostMapping(path="/signup")
+    public String signUp(@Valid @ModelAttribute("signUpForm") SignUpUserDto signUpUserDto,
+                         BindingResult bindingResult,
+                         Model model) {
+
+        if (bindingResult.hasErrors())
+            return "login/signup";
+
+        // TODO: create a validator for this email exists check
+        if (userService.findByEmail(signUpUserDto.getEmail()).isPresent()) {
+            bindingResult.addError(new FieldError("signUpForm", "email", "Email already exists"));
+            return "login/signup";
+        }
+
+        // TODO: create a validator for this password equality check
+        if (!signUpUserDto.getPassword().equals(signUpUserDto.getRepeatPassword())) {
+            bindingResult.addError(new FieldError("signUpForm", "repeatPassword", "Passwords do not match"));
+            return "login/signup";
+        }
+
+        // TODO: add an email verification step (send verification email)
+
+        userService.save(signUpUserDto);
+
+        return "redirect:/login/signin";
     }
 
 }

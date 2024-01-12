@@ -22,4 +22,19 @@ public class UserService {
         return user;
     }
 
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public User save(SignUpUserDto signUpUserDto) {
+        User user = new User();
+
+        user.setFirstName(signUpUserDto.getFirstName());
+        user.setLastName(signUpUserDto.getLastName());
+        user.setEmail(signUpUserDto.getEmail());
+        user.setCompanyName(signUpUserDto.getCompanyName());
+        user.setPasswordHash(passwordEncoder.encode(CharBuffer.wrap(signUpUserDto.getPassword())));
+
+        return userRepository.save(user);
+    }
 }
