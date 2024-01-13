@@ -3,17 +3,17 @@ package eu.yelnikoff.curverter.controllers;
 import jakarta.validation.Valid;
 import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import eu.yelnikoff.curverter.entities.user.UserService;
 import eu.yelnikoff.curverter.entities.user.SignInUserDto;
 import eu.yelnikoff.curverter.entities.user.SignUpUserDto;
+import eu.yelnikoff.curverter.entities.user.UserAuthenticator;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,6 +21,7 @@ import eu.yelnikoff.curverter.entities.user.SignUpUserDto;
 public class LoginController {
 
     private final UserService userService;
+    private final UserAuthenticator userAuthenticator;
 
     @GetMapping(path="/signin")
     public String signInForm(Model model) {
@@ -37,6 +38,8 @@ public class LoginController {
     @PostMapping(path="/signin")
     public String signIn(@Valid @ModelAttribute("signInForm") SignInUserDto signInUserDto,
                          BindingResult bindingResult,
+                         HttpServletRequest request,
+                         HttpServletResponse response,
                          Model model) {
 
         if (bindingResult.hasErrors())
@@ -48,13 +51,10 @@ public class LoginController {
             return "login/signin";
         }
 
-        // TODO: following code is very temporary
-        System.out.println("User found and can be logged in");
-        System.out.println("Sign in user: " + signInUserDto.getEmail() + " " + signInUserDto.getPassword());
+        if (userAuthenticator.authenticate(signInUserDto, request, response))
+            return "redirect:/my/";
 
-        model.addAttribute("email", signInUserDto.getEmail());
-
-        return "login/signin-success";
+        return "/login/signin";
     }
 
     @PostMapping(path="/signup")

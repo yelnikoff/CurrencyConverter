@@ -8,7 +8,7 @@
     <div layout:fragment="content">
         <form th:action="@{/login/signin}" th:object="${signInForm}" method="post">
             <div>
-                <label for="email">Username</label>
+                <label for="email">E-Mail</label>
                 <input type="text" th:field="*{email}" id="email" placeholder="E-Mail">
                 <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">No errors</div>
             </div>
