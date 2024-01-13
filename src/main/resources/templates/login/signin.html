@@ -7,6 +7,7 @@
 <body>
     <div layout:fragment="content">
         <form th:action="@{/login/signin}" th:object="${signInForm}" method="post">
+            <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error" />
             <div>
                 <label for="email">E-Mail</label>
                 <input type="text" th:field="*{email}" id="email" placeholder="E-Mail">

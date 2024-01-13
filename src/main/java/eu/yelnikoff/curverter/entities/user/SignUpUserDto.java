@@ -5,8 +5,12 @@ import lombok.Setter;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
+import eu.yelnikoff.curverter.constraints.Compare;
+import eu.yelnikoff.curverter.entities.user.constraints.UniqueEmail;
+
 @Getter
 @Setter
+@Compare(field="password", compareField="repeatPassword", message="Passwords do not match")
 public class SignUpUserDto {
 
     @NotBlank
@@ -17,6 +21,7 @@ public class SignUpUserDto {
 
     @NotBlank
     @Email
+    @UniqueEmail
     private String email;
 
     @NotBlank

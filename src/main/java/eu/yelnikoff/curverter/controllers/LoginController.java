@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.BindingResult;
 
@@ -45,12 +44,6 @@ public class LoginController {
         if (bindingResult.hasErrors())
             return "login/signin";
 
-        // TODO: create a validator for this email and password check
-        if (userService.findByLogin(signInUserDto.getEmail(), signInUserDto.getPassword()).isEmpty()) {
-            bindingResult.addError(new FieldError("signInForm", "email", "Invalid email or password"));
-            return "login/signin";
-        }
-
         if (userAuthenticator.authenticate(signInUserDto, request, response))
             return "redirect:/my/";
 
@@ -64,18 +57,6 @@ public class LoginController {
 
         if (bindingResult.hasErrors())
             return "login/signup";
-
-        // TODO: create a validator for this email exists check
-        if (userService.findByEmail(signUpUserDto.getEmail()).isPresent()) {
-            bindingResult.addError(new FieldError("signUpForm", "email", "Email already exists"));
-            return "login/signup";
-        }
-
-        // TODO: create a validator for this password equality check
-        if (!signUpUserDto.getPassword().equals(signUpUserDto.getRepeatPassword())) {
-            bindingResult.addError(new FieldError("signUpForm", "repeatPassword", "Passwords do not match"));
-            return "login/signup";
-        }
 
         // TODO: add an email verification step (send verification email)
 

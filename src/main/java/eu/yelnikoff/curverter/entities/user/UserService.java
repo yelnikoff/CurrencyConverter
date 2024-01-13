@@ -2,7 +2,6 @@ package eu.yelnikoff.curverter.entities.user;
 
 import java.util.Optional;
 import java.nio.CharBuffer;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,6 +27,10 @@ public class UserService implements UserDetailsService {
 
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public boolean existsByEmail(String email) {
+        return findByEmail(email).isPresent();
     }
 
     public User save(SignUpUserDto signUpUserDto) {

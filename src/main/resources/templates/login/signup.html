@@ -7,6 +7,7 @@
 <body>
     <div layout:fragment="content">
         <form th:action="@{/login/signup}" th:object="${signUpForm}" method="post">
+            <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error" />
             <div>
                 <label for="firstname">First Name *</label>
                 <input type="text" th:field="*{firstName}" id="firstname" placeholder="First Name">
