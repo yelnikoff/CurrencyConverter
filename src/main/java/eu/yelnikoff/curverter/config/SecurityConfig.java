@@ -33,6 +33,10 @@ public class SecurityConfig {
                     form.loginPage("/login/signin");
                     form.loginProcessingUrl("login/signin-alt");
                 })
+                .logout(logout -> {
+                    logout.logoutUrl("/login/signout");
+                    logout.logoutSuccessUrl("/");
+                })
                 .build();
     }
 
