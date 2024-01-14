@@ -17,6 +17,15 @@
     <tr th:replace="~{/my/amounts :: content}"></tr>
     </table>
 
+    <form th:action="@{/my/add}" method="post">
+        <select name="currencyCode">
+            <option th:each="currency : ${currencies}"
+                    th:value="${currency.code}"
+                    th:text="${currency.code} + ' (' + ${currency.name} + ')'"></option>
+        </select>
+        <input type="submit" value="Add" />
+    </form>
+
     <a th:href="@{/login/signout}">Logout</a>
 </div>
 </body>

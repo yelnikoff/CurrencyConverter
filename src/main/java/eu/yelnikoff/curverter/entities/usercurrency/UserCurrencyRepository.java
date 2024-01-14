@@ -7,8 +7,10 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface UserCurrencyRepository extends CrudRepository<UserCurrency, Long> {
 
-    public ArrayList<UserCurrency> findAllByUserId(Long userId);
+    public ArrayList<UserCurrency> findAllByUserIdOrderByIndexNumber(Long userId);
 
     public Optional<UserCurrency> findByUserIdAndCurrencyCode(Long userId, String currencyCode);
+
+    public void deleteByUserIdAndCurrencyCode(Long userId, String currencyCode);
 
 }
