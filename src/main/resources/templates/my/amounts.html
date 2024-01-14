@@ -1,7 +1,11 @@
 <tr th:each="userCurrency : ${userCurrencies}" th:fragment="content">
     <td th:text="${userCurrency.currency.getCode()}"></td>
     <td>
-        <input type="text" th:value="${userCurrency.amount}">
+        <form th:action="@{/my/amounts}" style="displa:inline-block" method="post">
+            <input type="hidden" name="currencyCode" th:value="${userCurrency.currency.code}">
+            <input type="text" th:value="${userCurrency.amount}" name="amount">
+            <input type="submit" value="Update">
+        </form>
     </td>
     <td>
         <form th:action="@{/my/move-up}" style="display:inline-block" method="post">
