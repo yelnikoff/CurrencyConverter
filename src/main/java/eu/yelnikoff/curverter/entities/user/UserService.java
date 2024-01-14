@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -15,6 +16,19 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    public Optional<User> currentIdentity() {
+        Object auth = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (auth instanceof UserIdentity identity)
+            return findById(identity.getId());
+
+        return Optional.empty();
+    }
+
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
 
     public Optional<User> findByLogin(String email, String password) {
         Optional<User> user = userRepository.findByEmail(email);

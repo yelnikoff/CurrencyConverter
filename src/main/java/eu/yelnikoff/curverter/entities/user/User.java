@@ -2,6 +2,7 @@ package eu.yelnikoff.curverter.entities.user;
 
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.Date;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -30,10 +31,10 @@ public class User {
 
     private String companyName;
 
+    private Date lastSignInAt;
+
     @CreationTimestamp
     @Column(nullable=false)
     private Date createdAt;
-
-    private Date lastSignInAt;
 
 }

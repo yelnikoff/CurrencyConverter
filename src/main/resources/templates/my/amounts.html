@@ -1,0 +1,9 @@
+<tr th:each="currency : ${currencies}" th:fragment="content">
+    <td th:text="${currency.currency.getCode()}"></td>
+    <td>
+        <input type="text" th:value="${currency.amount}">
+    </td>
+    <td>
+        <a th:href="@{/currencies/{id}/delete(id=${currency.id})}">X</a>
+    </td>
+</tr>

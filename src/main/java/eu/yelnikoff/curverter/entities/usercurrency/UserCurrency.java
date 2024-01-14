@@ -25,6 +25,9 @@ public class UserCurrency {
     @JoinColumn(name="currencyCode", nullable=false)
     private Currency currency;
 
+    @Column(nullable=false)
+    private Double amount;
+
     private Integer indexNumber;
 
 }

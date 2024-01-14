@@ -1,15 +1,20 @@
 package eu.yelnikoff.curverter.entities.user;
 
 import java.util.Collection;
+
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserIdentity implements UserDetails {
 
+    @Getter
+    private final Long id;
     private final String email;
     private final String password;
 
     public UserIdentity(User user) {
+        id = user.getId();
         email = user.getEmail();
         password = user.getPasswordHash();
     }

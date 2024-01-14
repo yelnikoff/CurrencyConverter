@@ -11,12 +11,12 @@
             <div>
                 <label for="email">E-Mail</label>
                 <input type="text" th:field="*{email}" id="email" placeholder="E-Mail">
-                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">No errors</div>
+                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
             </div>
             <div>
                 <label for="password">Password</label>
                 <input type="password" th:field="*{password}" id="password" placeholder="Password">
-                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Crew errors</div>
+                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
             </div>
             <div>
                 <button type="submit">Sign in</button>
