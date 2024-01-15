@@ -11,11 +11,9 @@ import jakarta.validation.constraints.NotBlank;
 @ToString
 public class UserCurrencyChangeAmountDto {
 
-    // TODO: add validators
     @NotBlank
     private String currencyCode;
 
-    // TODO: add validators
     @NotNull
     private Double amount;
 

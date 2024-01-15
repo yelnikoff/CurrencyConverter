@@ -5,6 +5,8 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface UserCurrencyMapper {
 
-    public UserCurrencyDto toUserCurrencyDto(UserCurrency userCurrency);
+    UserCurrencyChangeAmountDto toUserCurrencyChangeAmountDto(UserCurrency userCurrency);
+
+    UserCurrencyCodeDto toUserCurrencyCodeDto(UserCurrency userCurrency);
 
 }

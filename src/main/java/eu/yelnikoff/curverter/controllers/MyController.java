@@ -1,12 +1,12 @@
 package eu.yelnikoff.curverter.controllers;
 
+import java.util.Optional;
 import java.util.ArrayList;
 
 import jakarta.validation.Valid;
 import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +31,7 @@ public class MyController {
 
     @GetMapping(path="/")
     public String home(Model model) {
-        ArrayList<UserCurrency> userCurrencies = getUserCurrencies();
+        ArrayList<UserCurrency> userCurrencies = userCurrencyService.findAllByUserId(getCurrentUser().getId());
         ArrayList<Currency> currencies = currencyService.findAll();
 
         model.addAttribute("userCurrencies", userCurrencies);
@@ -42,7 +42,7 @@ public class MyController {
 
     @GetMapping(path="/amounts")
     public String amounts(Model model) {
-        ArrayList<UserCurrency> userCurrencies = getUserCurrencies();
+        ArrayList<UserCurrency> userCurrencies = userCurrencyService.findAllByUserId(getCurrentUser().getId());
 
         model.addAttribute("userCurrencies", userCurrencies);
 
@@ -50,84 +50,56 @@ public class MyController {
     }
 
     @PostMapping(path="/amounts")
-    public String changeAmount(@Valid UserCurrencyChangeAmountDto userCurrencyChangeAmountDto,
-                               BindingResult bindingResult,
-                               Model model) {
-        User user = getUser();
+    public String changeAmount(@Valid UserCurrencyChangeAmountDto userCurrencyChangeAmountDto) {
+        Optional<UserCurrency> userCurrency = userCurrencyService
+                .findByUserIdAndCurrencyCode(getCurrentUser().getId(), userCurrencyChangeAmountDto.getCurrencyCode());
 
-        UserCurrency userCurrency = userCurrencyService
-                .findByUserIdAndCurrencyCode(user.getId(), userCurrencyChangeAmountDto.getCurrencyCode())
-                .orElseThrow(() -> new RuntimeException("User currency not found")); // TODO: use validator instead
-
-        userCurrencyService.setAmount(userCurrencyChangeAmountDto.getAmount(), userCurrency);
+        userCurrency.ifPresent(uc -> userCurrencyService.setAmount(userCurrencyChangeAmountDto.getAmount(), uc));
 
         return "redirect:/my/amounts";
     }
 
     @PostMapping(path="/add")
-    public String add(@Valid UserCurrencyCodeDto userCurrencyCodeDto,
-                      BindingResult bindingResult,
-                      Model model) {
-        User user = getUser();
+    public String add(@Valid UserCurrencyCodeDto userCurrencyCodeDto) {
+        Optional<Currency> currency = currencyService.findByCode(userCurrencyCodeDto.getCurrencyCode());
 
-         Currency currency = currencyService
-                .findByCode(userCurrencyCodeDto.getCurrencyCode())
-                .orElseThrow(() -> new RuntimeException("Currency not found")); // TODO: use validator instead
-
-        userCurrencyService.add(user, currency);
+        currency.ifPresent(c -> userCurrencyService.add(getCurrentUser(), c));
 
         return "redirect:/my/amounts";
     }
 
     @PostMapping(path="/remove")
-    public String remove(@Valid UserCurrencyCodeDto userCurrencyCodeDto,
-                                 BindingResult bindingResult,
-                                 Model model) {
-        User user = getUser();
-
-        userCurrencyService.deleteByUserIdAndCurrencyCode(user.getId(), userCurrencyCodeDto.getCurrencyCode());
+    public String remove(@Valid UserCurrencyCodeDto userCurrencyCodeDto) {
+        userCurrencyService
+                .deleteByUserIdAndCurrencyCode(getCurrentUser().getId(), userCurrencyCodeDto.getCurrencyCode());
 
         return "redirect:/my/amounts";
     }
 
     @PostMapping(path="/move-up")
     public String moveUp(@Valid UserCurrencyCodeDto userCurrencyCodeDto) {
-        User user = getUser();
+        Optional<UserCurrency> userCurrency = userCurrencyService
+                .findByUserIdAndCurrencyCode(getCurrentUser().getId(), userCurrencyCodeDto.getCurrencyCode());
 
-        UserCurrency userCurrency = userCurrencyService
-                .findByUserIdAndCurrencyCode(user.getId(), userCurrencyCodeDto.getCurrencyCode())
-                .orElseThrow(() -> new RuntimeException("User currency not found")); // TODO: use validator instead
-
-        userCurrencyService.moveUp(userCurrency);
+        userCurrency.ifPresent(userCurrencyService::moveUp);
 
         return "redirect:/my/amounts";
     }
 
     @PostMapping(path="/move-down")
     public String moveDown(@Valid UserCurrencyCodeDto userCurrencyCodeDto) {
-        User user = getUser();
+        Optional<UserCurrency> userCurrency = userCurrencyService
+                .findByUserIdAndCurrencyCode(getCurrentUser().getId(), userCurrencyCodeDto.getCurrencyCode());
 
-        UserCurrency userCurrency = userCurrencyService
-                .findByUserIdAndCurrencyCode(user.getId(), userCurrencyCodeDto.getCurrencyCode())
-                .orElseThrow(() -> new RuntimeException("User currency not found")); // TODO: use validator instead
-
-        userCurrencyService.moveDown(userCurrency);
+        userCurrency.ifPresent(userCurrencyService::moveDown);
 
         return "redirect:/my/amounts";
     }
 
-    private ArrayList<UserCurrency> getUserCurrencies() {
-        User user = userService
-                .currentIdentity()
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        return userCurrencyService.findAllByUserId(user.getId());
-    }
-
-    private User getUser() {
+    private User getCurrentUser() {
         return userService
                 .currentIdentity()
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("Could not find logged in user"));
     }
 
 }
