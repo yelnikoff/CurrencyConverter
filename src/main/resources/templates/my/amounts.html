@@ -3,7 +3,7 @@
     <td>
         <form th:action="@{/my/amounts}" style="displa:inline-block" method="post">
             <input type="hidden" name="currencyCode" th:value="${userCurrency.currency.code}">
-            <input type="text" th:value="${userCurrency.amount}" name="amount">
+            <input type="text" th:value="${#numbers.formatDecimal(userCurrency.amount, 1, 2)}" name="amount">
             <input type="submit" value="Update">
         </form>
     </td>
