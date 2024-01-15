@@ -1,8 +1,8 @@
-package eu.yelnikoff.curverter.services.rates.json;
-
-import lombok.Setter;
+package eu.yelnikoff.curverter.services.rates;
 
 import java.util.HashMap;
+
+import lombok.Setter;
 
 @Setter
 public class Result {

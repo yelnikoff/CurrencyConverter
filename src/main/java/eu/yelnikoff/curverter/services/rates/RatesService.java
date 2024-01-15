@@ -3,8 +3,6 @@ package eu.yelnikoff.curverter.services.rates;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import eu.yelnikoff.curverter.services.rates.json.Result;
-
 @Service
 public class RatesService {
 

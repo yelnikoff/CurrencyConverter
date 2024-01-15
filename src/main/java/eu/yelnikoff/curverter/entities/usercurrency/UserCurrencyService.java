@@ -10,7 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import eu.yelnikoff.curverter.entities.user.User;
-import eu.yelnikoff.curverter.services.rates.json.Result;
+import eu.yelnikoff.curverter.services.rates.Result;
 import eu.yelnikoff.curverter.entities.currency.Currency;
 import eu.yelnikoff.curverter.services.rates.RatesService;
 
