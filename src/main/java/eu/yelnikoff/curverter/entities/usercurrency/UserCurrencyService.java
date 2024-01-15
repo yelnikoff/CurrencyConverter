@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import eu.yelnikoff.curverter.entities.user.User;
+import eu.yelnikoff.curverter.services.rates.json.Result;
 import eu.yelnikoff.curverter.entities.currency.Currency;
 import eu.yelnikoff.curverter.services.rates.RatesService;
 
@@ -42,6 +43,15 @@ public class UserCurrencyService {
         userCurrency.setCurrency(currency);
         userCurrency.setIndexNumber(userCurrencies.size() + 1);
         userCurrency.setAmount(0.0);
+
+        Optional<UserCurrency> uc = userCurrencies.stream().findFirst();
+        if (uc.isPresent()) {
+            Result rates = ratesService.getRates(uc.get().getCurrency().getCode());
+            if (rates != null) {
+                Double amount = uc.get().getAmount() * rates.getRate(currency.getCode());
+                userCurrency.setAmount(amount);
+            }
+        }
 
         userCurrencyRepository.save(userCurrency);
     }
@@ -76,12 +86,16 @@ public class UserCurrencyService {
         ArrayList<UserCurrency> userCurrencies = userCurrencyRepository.findAllByUserIdOrderByIndexNumber(initialUserCurrency.getUser().getId());
         Currency initialCurrency = initialUserCurrency.getCurrency();
 
+        Result rates = ratesService.getRates(initialCurrency.getCode());
+        if (rates == null)
+            return;
+
         userCurrencies.forEach(userCurrency -> {
             if (Objects.equals(userCurrency.getId(), initialUserCurrency.getId()))
                 return;
 
             Currency currency = userCurrency.getCurrency();
-            Double amount = initialUserCurrency.getAmount() * ratesService.getRate(initialCurrency.getCode(), currency.getCode());
+            Double amount = initialUserCurrency.getAmount() * rates.getRate(currency.getCode());
 
             userCurrency.setAmount(amount);
         });
