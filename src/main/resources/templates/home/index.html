@@ -13,10 +13,19 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <h1>Home page</h1>
-    <p>This is the home page.</p>
-    <p><a th:href="@{/login/signin}">Sign in</a> or <a th:href="@{/login/signup}">Sign up</a></p>
-    <p><a th:href="@{/my/}">My personal area</a></p>
+    <div class="row text-center justify-content-center m-auto">
+        <div class="col-md-6 col-sm-12 mt-5">
+            <h1>
+                Curverter
+            </h1>
+            <p class="lead">
+                This is a simple currency converter application. This is a pet project written in Java using Spring Boot and Thymeleaf.
+            </p>
+            <p class="lead">
+                <a th:href="@{/my/}" class="btn btn-lg btn-secondary fw-bold">Get Started</a>
+            </p>
+        </div>
+    </div>
 </div>
 </body>
 </html>

@@ -6,27 +6,29 @@
       layout:decorate="~{layouts/main}">
 <body>
 <div layout:fragment="content">
-    <h1>My Currencies</h1>
+    <div class="m-auto">
+        <h1>My Currencies</h1>
 
-    <table>
-    <tr>
-        <th>Currency</th>
-        <th>Amount</th>
-        <th></th>
-    </tr>
-    <tr th:replace="~{/my/amounts :: content}"></tr>
-    </table>
+        <table>
+        <tr>
+            <th>Currency</th>
+            <th>Amount</th>
+            <th></th>
+        </tr>
+        <tr th:replace="~{/my/amounts :: content}"></tr>
+        </table>
 
-    <form th:action="@{/my/add}" method="post">
-        <select name="currencyCode">
-            <option th:each="currency : ${currencies}"
-                    th:value="${currency.code}"
-                    th:text="${currency.code} + ' (' + ${currency.name} + ')'"></option>
-        </select>
-        <input type="submit" value="Add" />
-    </form>
+        <form th:action="@{/my/add}" method="post">
+            <select name="currencyCode">
+                <option th:each="currency : ${currencies}"
+                        th:value="${currency.code}"
+                        th:text="${currency.code} + ' (' + ${currency.name} + ')'"></option>
+            </select>
+            <input type="submit" value="Add" />
+        </form>
 
-    <a th:href="@{/login/signout}">Logout</a>
+        <a th:href="@{/login/signout}">Logout</a>
+    </div>
 </div>
 </body>
 </html>

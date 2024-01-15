@@ -6,22 +6,38 @@
       layout:decorate="~{layouts/main}">
 <body>
     <div layout:fragment="content">
-        <form th:action="@{/login/signin}" th:object="${signInForm}" method="post">
-            <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error" />
-            <div>
-                <label for="email">E-Mail</label>
-                <input type="text" th:field="*{email}" id="email" placeholder="E-Mail">
+        <div class="form-signin text-center">
+            <form th:action="@{/login/signin}" th:object="${signInForm}" method="post">
+                <div class="py-5 text-center">
+                    <h2>Sign In</h2>
+                    <p class="lead">
+                        Please fill in the form to sign in
+                    </p>
+                </div>
+
+                <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error" />
+
+                <div class="form-floating">
+                    <input type="email" class="form-control" id="floatingInput" th:field="*{email}" placeholder="name@example.com">
+                    <label for="floatingInput">Email address</label>
+                </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="floatingPassword" th:field="*{password}" placeholder="Password">
+                    <label for="floatingPassword">Password</label>
+                </div>
+
                 <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-            </div>
-            <div>
-                <label for="password">Password</label>
-                <input type="password" th:field="*{password}" id="password" placeholder="Password">
                 <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-            </div>
-            <div>
-                <button type="submit">Sign in</button>
-            </div>
-        </form>
+
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                </div>
+
+                <button class="w-100 btn btn-lg btn-primary mt-4" type="submit">Sign in</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
