@@ -15,19 +15,18 @@
                     </p>
                 </div>
 
-                <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error" />
+                <p th:each="err : ${#fields.errors('global')}" th:if="${!#fields.hasErrors('email') && !#fields.hasErrors('password')}" th:text="${err}" class="error" />
 
-                <div class="form-floating">
-                    <input type="email" class="form-control" id="floatingInput" th:field="*{email}" placeholder="name@example.com">
-                    <label for="floatingInput">Email address</label>
+                <div th:class="'form-floating '+${#fields.hasErrors('email') ? 'is-invalid' : ''}">
+                    <input type="email" th:class="'form-control '+${#fields.hasErrors('email') ? 'is-invalid' : ''}" id="email-field" th:field="*{email}" placeholder="name@example.com">
+                    <label for="email-field" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></label>
+                    <label for="email-field" th:if="${!#fields.hasErrors('email')}">Email address</label>
                 </div>
-                <div class="form-floating">
-                    <input type="password" class="form-control" id="floatingPassword" th:field="*{password}" placeholder="Password">
-                    <label for="floatingPassword">Password</label>
+                <div th:class="'form-floating '+${#fields.hasErrors('password') ? 'is-invalid' : ''}">
+                    <input type="password" th:class="'form-control '+${#fields.hasErrors('password') ? 'is-invalid' : ''}" id="password-field" th:field="*{password}" placeholder="Password">
+                    <label for="password-field" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></label>
+                    <label for="password-field" th:if="${!#fields.hasErrors('password')}">Password</label>
                 </div>
-
-                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
 
                 <div class="checkbox mb-3">
                     <label>

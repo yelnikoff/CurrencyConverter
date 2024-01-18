@@ -15,46 +15,47 @@
                     </p>
                 </div>
 
+
                 <form th:action="@{/login/signup}" th:object="${signUpForm}" method="post">
                     <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error" />
-                    <div class="row">
+                    <div class="row g-3">
                         <div class="col-sm-6">
                             <label for="firstname" class="form-label">First name *</label>
-                            <input type="text" class="form-control" id="firstname" th:field="*{firstName}" placeholder="John" value="" required>
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}"></div>
+                            <input type="text" th:class="'form-control '+${#fields.hasErrors('firstName') ? 'is-invalid' : ''}" class="form-control" id="firstname" th:field="*{firstName}" placeholder="John" value="" >
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
                         </div>
 
                         <div class="col-sm-6">
                             <label for="lastname" class="form-label">Last name *</label>
-                            <input type="text" class="form-control" id="lastname" th:field="*{lastName}" placeholder="Doe" value="" required>
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}"></div>
+                            <input type="text" th:class="'form-control '+${#fields.hasErrors('lastName') ? 'is-invalid' : ''}" id="lastname" th:field="*{lastName}" placeholder="Doe" value="" >
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
                         </div>
 
                         <div class="col-12">
                             <label for="email" class="form-label">E-mail *</label>
-                            <div class="input-group has-validation">
+                            <div class="input-group">
                                 <span class="input-group-text">@</span>
-                                <input type="text" class="form-control" id="email" th:field="*{email}" placeholder="john.doe@example.com" required>
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}"></div>
+                                <input type="text" th:class="'form-control '+${#fields.hasErrors('email') ? 'is-invalid' : ''}" id="email" th:field="*{email}" placeholder="john.doe@example.com">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <label for="password" class="form-label">Password *</label>
-                            <input type="password" class="form-control" id="password" th:field="*{password}" placeholder="Create a password" value="" required>
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}"></div>
+                            <input type="password" th:class="'form-control '+${#fields.hasErrors('password') ? 'is-invalid' : ''}" id="password" th:field="*{password}" placeholder="Create a password" value="" >
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
                         </div>
 
                         <div class="col-sm-6">
                             <label for="repeat-password" class="form-label">Repeat password *</label>
-                            <input type="text" class="form-control" id="repeat-password" th:field="*{repeatPassword}" placeholder="Repeat a password" value="" required>
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('repeatPassword')}"></div>
+                            <input type="password" th:class="'form-control '+${#fields.hasErrors('repeatPassword') ? 'is-invalid' : ''}" id="repeat-password" th:field="*{repeatPassword}" placeholder="Repeat a password" value="">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('repeatPassword')}" th:errors="*{repeatPassword}"></div>
                         </div>
 
                         <div class="col-12">
                             <label for="company-name" class="form-label">Company name</label>
-                            <input type="text" class="form-control" id="company-name" th:field="*{companyName}" placeholder="Example Company" value="">
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('companyName')}"></div>
+                            <input type="text" th:class="'form-control '+${#fields.hasErrors('companyName') ? 'is-invalid' : ''}" id="company-name" th:field="*{companyName}" placeholder="Example Company" value="">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('companyName')}" th:errors="*{companyName}"></div>
                         </div>
                     </div>
 
@@ -65,41 +66,5 @@
             </div>
         </div>
     </div>
-<!--        <form th:action="@{/login/signup}" th:object="${signUpForm}" method="post">-->
-<!--            <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error" />-->
-<!--            <div>-->
-<!--                <label for="firstname">First Name *</label>-->
-<!--                <input type="text" th:field="*{firstName}" id="firstname" placeholder="First Name">-->
-<!--                <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--                <label for="lastname">Last Name *</label>-->
-<!--                <input type="text" th:field="*{lastName}" id="lastname" placeholder="Last Name">-->
-<!--                <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--                <label for="email">E-Mail *</label>-->
-<!--                <input type="text" th:field="*{email}" id="email" placeholder="E-Mail">-->
-<!--                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--                <label for="password">Password *</label>-->
-<!--                <input type="password" th:field="*{password}" id="password" placeholder="Password">-->
-<!--                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--                <label for="repeat-password">Repeat password *</label>-->
-<!--                <input type="password" th:field="*{repeatPassword}" id="repeat-password" placeholder="Repeat Password">-->
-<!--                <div th:if="${#fields.hasErrors('repeatPassword')}" th:errors="*{repeatPassword}"></div>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--                <label for="company-name">Company Name</label>-->
-<!--                <input type="text" th:field="*{companyName}" id="company-name" placeholder="Company Name">-->
-<!--                <div th:if="${#fields.hasErrors('companyName')}" th:errors="*{companyName}"></div>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--                <button type="submit">Sign Up</button>-->
-<!--            </div>-->
-<!--        </form>-->
 </body>
 </html>

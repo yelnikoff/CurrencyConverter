@@ -58,8 +58,6 @@ public class LoginController {
         if (bindingResult.hasErrors())
             return "login/signup";
 
-        // TODO: add an email verification step (send verification email)
-
         userService.save(signUpUserDto);
 
         return "redirect:/login/signin";
