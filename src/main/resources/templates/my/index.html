@@ -7,28 +7,72 @@
 <body>
 <div layout:fragment="content">
     <div class="m-auto">
-        <h1>My Currencies</h1>
+        <div class="py-5 text-center">
+            <h2>My Currencies</h2>
+        </div>
 
-        <table>
-        <tr>
-            <th>Currency</th>
-            <th>Amount</th>
-            <th></th>
-        </tr>
-        <tr th:replace="~{/my/amounts :: content}"></tr>
-        </table>
-
-        <form th:action="@{/my/add}" method="post">
-            <select name="currencyCode">
+        <div id="add-currency-block">
+            <select id="add-currency" class="add-currency-select">
                 <option th:each="currency : ${currencies}"
                         th:value="${currency.code}"
                         th:text="${currency.code} + ' (' + ${currency.name} + ')'"></option>
             </select>
-            <input type="submit" value="Add" />
-        </form>
+            <a href="#" class="btn btn-primary" id="add-currency-btn">Add</a>
+        </div>
 
-        <a th:href="@{/login/signout}">Logout</a>
+        <table>
+            <tbody id="currencies">
+                <tr th:replace="~{/my/amounts :: content}"></tr>
+            </tbody>
+        </table>
     </div>
+    <form th:action="@{/login/signout}" id="logout-form"></form>
+    <script>
+        function updateCurrencies(url, currencyCode, amount) {
+            let data = {currencyCode: currencyCode};
+
+            if (amount)
+                data.amount = amount;
+
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: data,
+                success: function(data) {
+                    $('#currencies').html(data);
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            $(document).on('blur', '.amount', function(e) {
+                e.preventDefault();
+                updateCurrencies('/my/amounts', $(this).data('currency-code'), $(this).val());
+            });
+
+            $(document).on('click', '.action-link-up', function(e) {
+                e.preventDefault();
+                updateCurrencies('/my/move-up', $(this).data('currency-code'));
+            });
+
+            $(document).on('click', '.action-link-down', function(e) {
+                e.preventDefault();
+                updateCurrencies('/my/move-down', $(this).data('currency-code'));
+            });
+
+            $(document).on('click', '.action-link-remove', function(e) {
+                e.preventDefault();
+                updateCurrencies('/my/remove', $(this).data('currency-code'));
+            });
+
+            $(document).on('click', '#add-currency-btn', function(e) {
+                e.preventDefault();
+                updateCurrencies('/my/add', $('#add-currency').val());
+            })
+
+            $("#add-currency").selectize();
+        });
+    </script>
 </div>
 </body>
 </html>

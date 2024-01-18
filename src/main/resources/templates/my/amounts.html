@@ -1,24 +1,17 @@
-<tr th:each="userCurrency : ${userCurrencies}" th:fragment="content">
+<tr th:each="userCurrency : ${userCurrencies}" th:fragment="content" class="currency">
     <td th:text="${userCurrency.currency.getCode()}"></td>
     <td>
-        <form th:action="@{/my/amounts}" style="displa:inline-block" method="post">
-            <input type="hidden" name="currencyCode" th:value="${userCurrency.currency.code}">
-            <input type="text" th:value="${#numbers.formatDecimal(userCurrency.amount, 1, 2)}" name="amount">
-            <input type="submit" value="Update">
-        </form>
+        <input type="text" th:value="${#numbers.formatDecimal(userCurrency.amount, 1, 2)}" th:data-currency-code="${userCurrency.currency.code}" name="amount" class="amount">
     </td>
     <td>
-        <form th:action="@{/my/move-up}" style="display:inline-block" method="post">
-            <input type="hidden" name="currencyCode" th:value="${userCurrency.currency.code}">
-            <input type="submit" value="Up">
-        </form>
-        <form th:action="@{/my/move-down}" style="display:inline-block" method="post">
-            <input type="hidden" name="currencyCode" th:value="${userCurrency.currency.code}">
-            <input type="submit" value="Down">
-        </form>
-        <form th:action="@{/my/remove}" style="display:inline-block" method="post">
-            <input type="hidden" name="currencyCode" th:value="${userCurrency.currency.code}">
-            <input type="submit" value="Remove">
-        </form>
+        <a href="#" class="action-link action-link-up" th:data-currency-code="${userCurrency.currency.code}">
+            <i class="bi bi-arrow-up"></i>
+        </a>
+        <a href="#" class="action-link action-link-down" th:data-currency-code="${userCurrency.currency.code}">
+            <i class="bi bi-arrow-down"></i>
+        </a>
+        <a href="#" class="action-link action-link-remove" th:data-currency-code="${userCurrency.currency.code}">
+            <i class="bi bi-x"></i>
+        </a>
     </td>
 </tr>
